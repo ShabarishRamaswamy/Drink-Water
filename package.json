@@ -1,0 +1,22 @@
+{
+  "name": "drink-water",
+  "version": "1.0.0",
+  "description": "This is a Chrome extension which reminds you to drink water at your specified time.",
+  "main": "background.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ShabarishRamaswamy/Drink-Water.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ShabarishRamaswamy/Drink-Water/issues"
+  },
+  "homepage": "https://github.com/ShabarishRamaswamy/Drink-Water#readme",
+  "dependencies": {
+    "@types/chrome": "0.0.154"
+  }
+}
