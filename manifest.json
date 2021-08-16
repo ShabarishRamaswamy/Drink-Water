@@ -2,14 +2,21 @@
     "name": "Drink Water!",
     "version": "0.1",
     "manifest_version": 3,
+    "description": "An extension to remind users to drink water at regular intervals.",
+
     "background": {
       "service_worker": "background.js"
     },
-    "action": {},
+
+    "action": {
+      "default_title": "Drink Water!",
+      "default_popup": "scripts/popup.html"
+    },
+
     "commands": {
         "_execute_action": {
             "suggested_key": {
-              "default": "Ctrl+Shift+W"
+              "default": "Ctrl+Shift+E"
             },
             "description": "Opens hello.html"
         }
