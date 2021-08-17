@@ -1,10 +1,26 @@
-delayInMinutes = 0.1;
-periodInMinutes = 60;
-
-chrome.alarms.create( "DrinkWater",{ 
-    delayInMinutes: delayInMinutes, 
-    periodInMinutes: periodInMinutes 
+/**
+ * Setting default values in the Storage which can be changed.
+ */
+chrome.storage.sync.set({
+    "delayInMinutes": 0,
+    "periodInMinutes": 60,
+    "timerType": "Clock"
+}, (obj) => {
+    chrome.storage.sync.get(["delayInMinutes", "periodInMinutes"], (values) => {
+        createTimer(values.delayInMinutes, values.periodInMinutes);
+    });
 });
+
+/**
+ * @function creates timer to be used as the main timer of the extension.
+ */
+createTimer = (delayInMinutes, periodInMinutes) => {
+    chrome.alarms.create( "DrinkWater",{ 
+        delayInMinutes: delayInMinutes, 
+        periodInMinutes: periodInMinutes 
+    });
+}
+
 
 chrome.alarms.onAlarm.addListener((alarm) => {
 
