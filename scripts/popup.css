@@ -1,0 +1,14 @@
+.timer {
+    width: 100px;
+    height: 100px;
+    background-color: blueviolet;
+    position: relative;
+    animation-name: tankClock;
+}
+
+@keyframes tankClock {
+    0%   {background-color: red;}
+    25%  {background-color: yellow; height: 25px; }
+    50%  {background-color: blanchedalmond;  height: 75px; }
+    100% {background-color: green;  height: 100px; }
+}

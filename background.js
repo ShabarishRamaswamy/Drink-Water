@@ -3,9 +3,9 @@
  */
 chrome.storage.sync.set({
     "delayInMinutes": 0,
-    "periodInMinutes": 60,
+    "periodInMinutes": 1,
     "timerType": "Clock"
-}, (obj) => {
+}, () => {
     chrome.storage.sync.get(["delayInMinutes", "periodInMinutes"], (values) => {
         createTimer(values.delayInMinutes, values.periodInMinutes);
     });
