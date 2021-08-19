@@ -9,7 +9,10 @@
     <link rel="stylesheet" href="popup.css">
 </head>
 <body>
-    <div class="timer"></div>
+    <div class="timer">
+        <div class="timer-bg"></div>
+        <div class="timer-fg"></div>
+    </div>
     <div class="settings">
 
         <p class="settings_interval">Interval (in Minutes): </p>
@@ -19,12 +22,14 @@
         <p class="timer_type">Timer Type: </p>
         <input type="text" class="timer_type_input"><br/><br/>
 
-        <select>
+        <select class="timer_type_input">
             <option value="" disabled="disabled" selected="selected">Please select a Type</option>
-            <option value="Clock">Clock</option>
-            <option value="Pomodoro">Pomodoro</option>
-            <option value="Tank">Tank</option>
+            <option value="clock">Clock</option>
+            <option value="pomodoro">Pomodoro</option>
+            <option value="tank">Tank</option>
         </select>
+
+        <button class="updateTimer">Save</button>
 
     </div>
     <div class="social_media"></div>
