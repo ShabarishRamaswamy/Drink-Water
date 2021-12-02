@@ -1,37 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Drink Water !</title>
-    <script src="popup.js" defer></script>
-    <link rel="stylesheet" href="popup.css">
-</head>
-<body>
-    <div class="timer">
-        <div class="timer-bg"></div>
-        <div class="timer-fg"></div>
-    </div>
-    <div class="settings">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Drink Water !</title>
+        <script src="popup.js" defer></script>
+        <link rel="stylesheet" href="popup.css" />
+    </head>
+    <body>
+        <div class="timer">
+            <div class="timer-bg"></div>
+            <div class="timer-fg"></div>
+        </div>
+        <div class="settings">
+            <p class="settings_interval">Interval (in Minutes):</p>
+            <input type="text" class="settings_interval_input" /><br />
 
-        <p class="settings_interval">Interval (in Minutes): </p>
-        <input type="text" class="settings_interval_input"><br/>
+            <!-- This needs to be a drop down. -->
+            <p class="timer_type">Timer Type:</p>
+            <input type="text" class="timer_type_input" /><br /><br />
 
-        <!-- This needs to be a drop down. -->
-        <p class="timer_type">Timer Type: </p>
-        <input type="text" class="timer_type_input"><br/><br/>
+            <select class="timer_type_input">
+                <option value="" disabled="disabled" selected="selected">
+                    Please select a Type
+                </option>
+                <option value="clock">Clock</option>
+                <option value="pomodoro">Pomodoro</option>
+                <option value="tank">Tank</option>
+            </select>
 
-        <select class="timer_type_input">
-            <option value="" disabled="disabled" selected="selected">Please select a Type</option>
-            <option value="clock">Clock</option>
-            <option value="pomodoro">Pomodoro</option>
-            <option value="tank">Tank</option>
-        </select>
-
-        <button class="updateTimer">Save</button>
-
-    </div>
-    <div class="social_media"></div>
-</body>
+            <button class="updateTimer">Save</button>
+        </div>
+        <div class="social_media"></div>
+    </body>
 </html>

@@ -5,21 +5,22 @@
     "description": "An extension to remind users to drink water at regular intervals.",
 
     "background": {
-      "service_worker": "background.js"
+        "service_worker": "background.js"
     },
 
     "action": {
-      "default_title": "Drink Water!",
-      "default_popup": "scripts/popup.html"
+        "default_title": "Drink Water!",
+        "default_popup": "scripts/popup.html"
     },
 
     "commands": {
         "_execute_action": {
             "suggested_key": {
-              "default": "Ctrl+Shift+E"
+                "default": "Ctrl+Shift+E"
             },
             "description": "Opens hello.html"
         }
     },
+
     "permissions": ["storage", "scripting", "alarms", "tabs"]
 }
