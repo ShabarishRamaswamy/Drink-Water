@@ -37,6 +37,8 @@ chrome.alarms.onAlarm.addListener((alarm) => {
 
     chrome.action.setBadgeText({ text: "!" });
 
+    chrome.storage.sync.set({ badgeText: "!" });
+
     console.log("Alarm fired");
 });
 
@@ -47,10 +49,24 @@ chrome.alarms.onAlarm.addListener((alarm) => {
 chrome.runtime.onMessage.addListener((request, sender) => {
     if (request.iconClicked) {
         console.log("Hi");
-        chrome.action.getBadgeText((text) => {
-            if (text == "!") {
-                chrome.action.setBadgeText("");
-            }
-        });
+        try {
+            // TODO: getBadgeText Does not work.
+            // chrome.action.getBadgeText(null, (text) => {
+            //     if (text == "!") {
+            //         chrome.action.setBadgeText("");
+            //     }
+            // });
+
+            // Temporary workaround
+            chrome.storage.sync.get("badgeText", (res) => {
+                console.log(`Badge Text: ${res.badgeText}`);
+                if (res.badgeText == "!") {
+                    chrome.action.setBadgeText({ text: "" });
+                }
+            });
+        } catch (e) {
+            console.log(e);
+            console.log("No Badge.");
+        }
     }
 });
