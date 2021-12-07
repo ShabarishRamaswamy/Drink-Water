@@ -9,8 +9,9 @@ var timer_type_input = document.getElementsByClassName("timer_type_input")[0];
 var timer_type_select = document.getElementsByClassName("timer_type_input")[1];
 var timer_fg = document.getElementsByClassName("timer-fg")[0];
 var update_button = document.getElementsByClassName("updateTimer")[0];
+var timer_text_based = document.getElementsByClassName("timer-text-based")[0];
 
-chrome.runtime.sendMessage({ iconClicked: "Hi" });
+chrome.runtime.sendMessage({ iconClicked: "iconClicked" });
 
 chrome.storage.sync.get(
     ["delayInMinutes", "periodInMinutes", "timerType"],
@@ -35,8 +36,23 @@ update_button.addEventListener("click", () => {
         chrome.storage.sync.set({
             periodInMinutes: interval_input.value,
         });
+
+        createTimer(interval_input.value);
     }
 });
+
+var createTimer = (value) => {
+    let ms_time = 0;
+
+    setInterval(() => {
+        if (ms_time / 60 <= value) {
+            timer_text_based.innerText = "" + ms_time;
+            ms_time += 1;
+        } else {
+            ms_time = 0;
+        }
+    }, 1000);
+};
 
 /**
  * Message Passing code.

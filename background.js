@@ -5,7 +5,7 @@ chrome.storage.sync.set(
     {
         delayInMinutes: 0,
         periodInMinutes: 1,
-        timerType: "Clock",
+        timerType: "Digital",
     },
     () => {
         chrome.storage.sync.get(
@@ -33,14 +33,14 @@ createTimer = (delayInMinutes, periodInMinutes) => {
         delayInMinutes: delayInMinutes,
         periodInMinutes: periodInMinutes,
     });
-    console.log("Created Timer");
+    // console.log("Created Timer");
 };
 
 chrome.alarms.onAlarm.addListener((alarm) => {
     chrome.action.setBadgeBackgroundColor(
         { color: [255, 0, 0, 0] }, // Blue
         () => {
-            console.log("Timer over !");
+            // console.log("Timer over !");
         }
     );
 
@@ -48,7 +48,7 @@ chrome.alarms.onAlarm.addListener((alarm) => {
 
     chrome.storage.sync.set({ badgeText: "!" });
 
-    console.log("Alarm fired");
+    // console.log("Alarm fired");
 
     /**
      * Now, when the user clicks the plugin and says that they have consumed water, we must reset the
@@ -67,7 +67,7 @@ chrome.alarms.onAlarm.addListener((alarm) => {
 
                 // Temporary workaround
                 chrome.storage.sync.get("badgeText", (res) => {
-                    console.log(`Badge Text: ${res.badgeText}`);
+                    // console.log(`Badge Text: ${res.badgeText}`);
                     if (res.badgeText == "!") {
                         chrome.action.setBadgeText({ text: "" });
                     }
