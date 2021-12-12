@@ -10,8 +10,7 @@ var timer_type_select = document.getElementsByClassName("timer_type_input")[1];
 var timer_fg = document.getElementsByClassName("timer-fg")[0];
 var update_button = document.getElementsByClassName("updateTimer")[0];
 var timer_text_based = document.getElementsByClassName("timer-text-based")[0];
-
-chrome.runtime.sendMessage({ iconClicked: "iconClicked" });
+var drank_button = document.getElementsByClassName("completed-drinking")[0];
 
 chrome.storage.sync.get(
     ["delayInMinutes", "periodInMinutes", "timerType"],
@@ -41,6 +40,10 @@ update_button.addEventListener("click", () => {
     }
 });
 
+drank_button.addEventListener("click", () => {
+    chrome.runtime.sendMessage({ iconClicked: "iconClicked" });
+});
+
 var createTimer = (value) => {
     let ms_time = 0;
 
@@ -53,6 +56,11 @@ var createTimer = (value) => {
         }
     }, 1000);
 };
+var runOnceGlobally = 0;
+if (runOnceGlobally == 0) {
+    createTimer(60);
+    runOnceGlobally += 1;
+}
 
 /**
  * Message Passing code.
