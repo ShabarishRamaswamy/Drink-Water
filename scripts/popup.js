@@ -12,6 +12,8 @@ var update_button = document.getElementsByClassName("updateTimer")[0];
 var timer_text_based = document.getElementsByClassName("timer-text-based")[0];
 var drank_button = document.getElementsByClassName("completed-drinking")[0];
 
+var globalPeriodInMinutes = 0;
+
 chrome.storage.sync.get(
     ["delayInMinutes", "periodInMinutes", "timerType"],
     (values) => {
@@ -20,6 +22,8 @@ chrome.storage.sync.get(
         timer_fg.style["animation-duration"] = `${
             values.periodInMinutes * 60
         }s`;
+
+        globalPeriodInMinutes = values.periodInMinutes;
     }
 );
 
@@ -44,23 +48,41 @@ drank_button.addEventListener("click", () => {
     chrome.runtime.sendMessage({ iconClicked: "iconClicked" });
 });
 
-var createTimer = (value) => {
-    let ms_time = 0;
+/**
+ * Message passing between popup and background to get the current timer.
+ * 1. Asks for the Timer.
+ * 2. Gets the Timer.
+ * 3. Runs the timer till the intervals and loops back.
+ */
+chrome.runtime.sendMessage({ giveCurrentTime: true }, async (response) => {
+    try {
+        if (response) {
+            timer_fg.innerText = response.currentTime;
+            createTimer(Number(response.currentTime));
+        }
+    } catch (error) {
+        chrome.runtime.sendMessage({ popupErrorDisplay: error });
+    }
+});
 
+/**
+ * This is the Main Timer function for Popup.
+ */
+var createTimer = (currentTime) => {
     setInterval(() => {
-        if (ms_time / 60 <= value) {
-            timer_text_based.innerText = "" + ms_time;
-            ms_time += 1;
-        } else {
-            ms_time = 0;
+        // timer_text_based.innerText += `Global Time: ${globalPeriodInMinutes}\n`;
+        // timer_text_based.innerText += `Current Time: ${currentTime}\n`;
+
+        if (
+            globalPeriodInMinutes &&
+            currentTime / 60 <= globalPeriodInMinutes
+        ) {
+            // timer_text_based.innerText += `Current Time: ${currentTime}\n`;
+            timer_text_based.innerText += "" + currentTime;
+            currentTime += 1;
         }
     }, 1000);
 };
-var runOnceGlobally = 0;
-if (runOnceGlobally == 0) {
-    createTimer(60);
-    runOnceGlobally += 1;
-}
 
 /**
  * Message Passing code.

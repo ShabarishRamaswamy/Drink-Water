@@ -52,6 +52,22 @@ chrome.alarms.onAlarm.addListener((alarm) => {
 });
 
 /**
+ * @function to return the current time to Popup.
+ */
+chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+    if (request.giveCurrentTime) {
+        let timeLeft = -1;
+        chrome.alarms.get("DrinkWater", function (response) {
+            // console.log(response);
+            timeLeft = Math.floor((response.scheduledTime - Date.now()) / 1000);
+            console.log(timeLeft);
+            return;
+        });
+        sendResponse({ currentTime: timeLeft });
+    }
+});
+
+/**
  * Now, when the user clicks the plugin and says that they have consumed water, we must reset the
  * badge and the exclaimation on the plugin's icon.
  */
@@ -77,5 +93,14 @@ chrome.runtime.onMessage.addListener((request, sender) => {
             console.log(e);
             console.log("No Badge.");
         }
+    }
+});
+
+/**
+ * Logging errors from POPUP
+ */
+chrome.runtime.onMessage.addListener((request, sender) => {
+    if (request.popupErrorDisplay) {
+        console.log(`POPUP ERROR: ${request.popupErrorDisplay}`);
     }
 });
