@@ -23,7 +23,9 @@ chrome.storage.sync.set(
 chrome.storage.onChanged.addListener((changes, namespace) => {
     for (let [key, { oldValue, newValue }] of Object.entries(changes)) {
         if (key == "periodInMinutes") {
-            createTimer(0, Number(newValue));
+            chrome.alarms.clearAll(() => {
+                createTimer(0, Number(newValue));
+            });
         }
     }
 });
@@ -54,16 +56,15 @@ chrome.alarms.onAlarm.addListener((alarm) => {
 /**
  * @function to return the current time to Popup.
  */
-chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+chrome.runtime.onMessage.addListener((request, sender) => {
     if (request.giveCurrentTime) {
-        let timeLeft = -1;
         chrome.alarms.get("DrinkWater", function (response) {
+            let timeLeft = -1;
             // console.log(response);
             timeLeft = Math.floor((response.scheduledTime - Date.now()) / 1000);
             console.log(timeLeft);
-            return;
+            chrome.runtime.sendMessage({ currentTime: timeLeft });
         });
-        sendResponse({ currentTime: timeLeft });
     }
 });
 

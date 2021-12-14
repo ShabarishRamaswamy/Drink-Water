@@ -53,12 +53,15 @@ drank_button.addEventListener("click", () => {
  * 1. Asks for the Timer.
  * 2. Gets the Timer.
  * 3. Runs the timer till the intervals and loops back.
+ * Note: Nested callback responses were not working as expected. Thus multiple messages
+ * are being sent.
  */
-chrome.runtime.sendMessage({ giveCurrentTime: true }, async (response) => {
+chrome.runtime.sendMessage({ giveCurrentTime: true });
+chrome.runtime.onMessage.addListener((request, sender) => {
     try {
-        if (response) {
-            timer_fg.innerText = response.currentTime;
-            createTimer(Number(response.currentTime));
+        if (request.currentTime) {
+            // timer_fg.innerText = request.currentTime;
+            createTimer(Number(request.currentTime));
         }
     } catch (error) {
         chrome.runtime.sendMessage({ popupErrorDisplay: error });
@@ -73,13 +76,12 @@ var createTimer = (currentTime) => {
         // timer_text_based.innerText += `Global Time: ${globalPeriodInMinutes}\n`;
         // timer_text_based.innerText += `Current Time: ${currentTime}\n`;
 
-        if (
-            globalPeriodInMinutes &&
-            currentTime / 60 <= globalPeriodInMinutes
-        ) {
+        if (globalPeriodInMinutes && currentTime >= 0) {
             // timer_text_based.innerText += `Current Time: ${currentTime}\n`;
-            timer_text_based.innerText += "" + currentTime;
-            currentTime += 1;
+            timer_text_based.innerText = "" + currentTime;
+            currentTime -= 1;
+        } else {
+            currentTime = Math.floor(globalPeriodInMinutes * 60);
         }
     }, 1000);
 };
