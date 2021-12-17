@@ -31,10 +31,19 @@ chrome.storage.onChanged.addListener((changes, namespace) => {
 });
 
 createTimer = (delayInMinutes, periodInMinutes) => {
-    chrome.alarms.create("DrinkWater", {
-        delayInMinutes: delayInMinutes,
-        periodInMinutes: periodInMinutes,
-    });
+    if (periodInMinutes > 0) {
+        chrome.alarms.create("DrinkWater", {
+            delayInMinutes: delayInMinutes,
+            periodInMinutes: periodInMinutes,
+        });
+    } else {
+        chrome.storage.sync.get(
+            ["delayInMinutes", "periodInMinutes"],
+            (values) => {
+                createTimer(values.delayInMinutes, values.periodInMinutes);
+            }
+        );
+    }
     // console.log("Created Timer");
 };
 
@@ -62,7 +71,7 @@ chrome.runtime.onMessage.addListener((request, sender) => {
             let timeLeft = -1;
             // console.log(response);
             timeLeft = Math.floor((response.scheduledTime - Date.now()) / 1000);
-            console.log(timeLeft);
+            // console.log(timeLeft);
             chrome.runtime.sendMessage({ currentTime: timeLeft });
         });
     }
@@ -74,7 +83,7 @@ chrome.runtime.onMessage.addListener((request, sender) => {
  */
 chrome.runtime.onMessage.addListener((request, sender) => {
     if (request.iconClicked) {
-        console.log("Hi");
+        // console.log("Hi");
         try {
             // TODO: getBadgeText Does not work.
             // chrome.action.getBadgeText(null, (text) => {
@@ -88,6 +97,9 @@ chrome.runtime.onMessage.addListener((request, sender) => {
                 // console.log(`Badge Text: ${res.badgeText}`);
                 if (res.badgeText == "!") {
                     chrome.action.setBadgeText({ text: "" });
+                    chrome.alarms.clearAll(() => {
+                        createTimer(0, -1); // -1 Will force the timer to pull from storage and set.
+                    });
                 }
             });
         } catch (e) {
