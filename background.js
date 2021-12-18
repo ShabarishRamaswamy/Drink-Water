@@ -115,5 +115,6 @@ chrome.runtime.onMessage.addListener((request, sender) => {
 chrome.runtime.onMessage.addListener((request, sender) => {
     if (request.popupErrorDisplay) {
         console.log(`POPUP ERROR: ${request.popupErrorDisplay}`);
+        console.dir(request.popupErrorDisplay);
     }
 });

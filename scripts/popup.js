@@ -9,8 +9,8 @@ var timer_type_input = document.getElementsByClassName("timer_type_input")[0];
 var timer_type_select = document.getElementsByClassName("timer_type_input")[1];
 var timer_fg = document.getElementsByClassName("timer-fg")[0];
 var update_button = document.getElementsByClassName("updateTimer")[0];
-var timer_text_based = document.getElementsByClassName("timer-text-based")[0];
 var drank_button = document.getElementsByClassName("completed-drinking")[0];
+var currentTimerType = "";
 
 var globalPeriodInMinutes = 0;
 
@@ -24,6 +24,7 @@ chrome.storage.sync.get(
         }s`;
 
         globalPeriodInMinutes = values.periodInMinutes;
+        currentTimerType = values.timerType;
     }
 );
 
@@ -78,12 +79,27 @@ var createTimer = (currentTime) => {
 
         if (globalPeriodInMinutes && currentTime >= 0) {
             // timer_text_based.innerText += `Current Time: ${currentTime}\n`;
-            timer_text_based.innerText = "" + currentTime;
+            displayTimer(String(currentTime));
             currentTime -= 1;
         } else {
             currentTime = Math.floor(globalPeriodInMinutes * 60);
         }
     }, 1000);
+};
+
+/**
+ * @function which displays the timer on the extension.
+ * Responsible for the timer visuals seen by the user.
+ * Wil be run every second.
+ */
+var displayTimer = (currentTime) => {
+    if (currentTimerType == "Digital") {
+        timer_fg.innerHTML = `<p class="timer-text-based"></p>`;
+        var timer_text_based =
+            document.getElementsByClassName("timer-text-based")[0];
+        timer_text_based.innerText = "" + currentTime;
+    }
+    return;
 };
 
 /**
