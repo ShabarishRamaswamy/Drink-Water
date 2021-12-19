@@ -3,10 +3,67 @@
     src: url("../res/fonts/KarmaFuture.ttf");
 }
 
+body {
+    background-color: rgb(1, 214, 1);
+}
+
+/* Main Wrapper to all the below elements. */
+.settings {
+    display: flex;
+    flex-flow: column wrap;
+}
+
+/* All the Timer info elements. */
+.timer_info {
+    display: flex;
+    flex-direction: column;
+
+    justify-content: center;
+}
+
+/* The Main timer section. */
+.timer {
+    display: flex;
+    flex-direction: column;
+
+    justify-content: center;
+    align-items: center;
+    row-gap: 2rem;
+    margin: 1rem;
+}
+
+.timer-fg {
+    display: flex;
+    flex-direction: column;
+}
+
+.timer-bg {
+    display: none;
+}
+
 .timer-text-based {
+    display: none;
     font-family: "AnalogClock", Arial, Helvetica, sans-serif;
     font-size: 3rem;
     text-align: center;
+}
+
+.timer-svg {
+    display: none;
+    height: 40vh;
+}
+
+/* Timer Editing Section */
+.timer_editing {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+#stick {
+    stroke: #ef4b22;
+    stroke-width: 2px;
+    fill: none;
 }
 
 /* .timer {

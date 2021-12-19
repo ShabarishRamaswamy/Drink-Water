@@ -74,9 +74,6 @@ chrome.runtime.onMessage.addListener((request, sender) => {
  */
 var createTimer = (currentTime) => {
     setInterval(() => {
-        // timer_text_based.innerText += `Global Time: ${globalPeriodInMinutes}\n`;
-        // timer_text_based.innerText += `Current Time: ${currentTime}\n`;
-
         if (globalPeriodInMinutes && currentTime >= 0) {
             // timer_text_based.innerText += `Current Time: ${currentTime}\n`;
             displayTimer(String(currentTime));
@@ -93,11 +90,28 @@ var createTimer = (currentTime) => {
  * Wil be run every second.
  */
 var displayTimer = (currentTime) => {
+    let currentMin = Math.floor(currentTime / 60);
+    let currentSec = String(currentTime - currentMin * 60);
+    if (currentSec < 10) {
+        currentSec = `0${currentSec}`;
+    }
+
     if (currentTimerType == "Digital") {
-        timer_fg.innerHTML = `<p class="timer-text-based"></p>`;
         var timer_text_based =
             document.getElementsByClassName("timer-text-based")[0];
-        timer_text_based.innerText = "" + currentTime;
+        timer_text_based.style.display = "block";
+
+        timer_text_based.innerText = `${currentMin}:${currentSec}`;
+    } else if (currentTimerType == "Clock") {
+        var timer_svg = document.getElementsByClassName("timer-svg")[0];
+        timer_svg.style.display = "block";
+        console.log("Hi");
+        timer_svg.innerHTML = `<svg width="200" height="200" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="50%" cy="50%" r="45%" fill="#1ECBE1" stroke="black" stroke-width="3"/>
+        <use xlink:href="#stick" transform="rotate(0)" />
+      </svg>`;
+    } else if (currentTimerType == "Pomodoro") {
+    } else if (currentTimerType == "Tank") {
     }
     return;
 };

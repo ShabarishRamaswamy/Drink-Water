@@ -2,40 +2,53 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8" />
-        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Drink Water !</title>
         <script src="popup.js" defer></script>
         <link rel="stylesheet" href="popup.css" />
     </head>
     <body>
-        <div class="settings">
-            <p class="settings_interval">Interval (in Minutes):</p>
-            <input type="text" class="settings_interval_input" /><br />
-
-            <!-- This needs to be a drop down. -->
-            <p class="timer_type">Timer Type:</p>
-            <input type="text" class="timer_type_input" /><br /><br />
-
-            <div class="timer">
-                <div class="timer-bg"></div>
-                <div class="timer-fg"></div>
+        <div class="container">
+            <div class="title">
+                <h1>Drink Water!</h1>
             </div>
+            <div class="settings">
+                <div class="timer_info">
+                    <p class="settings_interval">Interval (in Minutes):</p>
+                    <input type="text" class="settings_interval_input" />
 
-            <button class="completed-drinking">Drank !</button>
+                    <!-- This needs to be a drop down. -->
+                    <p class="timer_type">Timer Type:</p>
+                    <input type="text" class="timer_type_input" />
+                </div>
 
-            <select class="timer_type_input">
-                <option value="" disabled="disabled" selected="selected">
-                    Please select a Type
-                </option>
-                <option value="Digital">Digital</option>
-                <option value="Clock">Clock</option>
-                <option value="Pomodoro">Pomodoro</option>
-                <option value="Tank">Tank</option>
-            </select>
+                <div class="timer">
+                    <div class="timer-bg"></div>
+                    <div class="timer-fg">
+                        <p class="timer-text-based"></p>
+                        <svg class="timer-svg"></svg>
+                    </div>
+                    <button class="completed-drinking">Drank !</button>
+                </div>
 
-            <button class="updateTimer">Save</button>
+                <div class="timer_editing">
+                    <select class="timer_type_input">
+                        <option
+                            value=""
+                            disabled="disabled"
+                            selected="selected"
+                        >
+                            Please select a Type
+                        </option>
+                        <option value="Digital">Digital</option>
+                        <option value="Clock">Clock</option>
+                        <option value="Pomodoro">Pomodoro</option>
+                        <option value="Tank">Tank</option>
+                    </select>
+
+                    <button class="updateTimer">Save</button>
+                </div>
+            </div>
+            <div class="social-media"></div>
         </div>
-        <div class="social-media"></div>
     </body>
 </html>
