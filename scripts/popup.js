@@ -106,12 +106,18 @@ var displayTimer = (currentTime) => {
         var timer_svg = document.getElementsByClassName("timer-svg")[0];
         timer_svg.style.display = "block";
         console.log("Hi");
-        timer_svg.innerHTML = `<svg width="200" height="200" xmlns="http://www.w3.org/2000/svg">
-        <circle cx="50%" cy="50%" r="45%" fill="#1ECBE1" stroke="black" stroke-width="3"/>
+        timer_svg.innerHTML = `<svg width="300px" height="300px" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="50%" cy="50%" r="120px" fill="#1ECBE1" stroke="black" stroke-width="3"/>
         <use xlink:href="#stick" transform="rotate(0)" />
       </svg>`;
     } else if (currentTimerType == "Pomodoro") {
     } else if (currentTimerType == "Tank") {
+        console.log("Hi");
+        var timer_svg = document.getElementsByClassName("timer-svg")[0];
+        timer_svg.style.display = "block";
+        timer_svg.innerHTML = `<svg width="300px" height="300px">
+        <rect x="50" y="50" width="150" height="140" style="fill:blue;stroke:pink;stroke-width:5;" />
+      </svg>`;
     }
     return;
 };
