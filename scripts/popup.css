@@ -3,8 +3,16 @@
     src: url("../res/fonts/KarmaFuture.ttf");
 }
 
+* {
+    overflow: hidden;
+}
+
 body {
-    background-color: rgb(1, 214, 1);
+    background-color: rgb(250, 250, 250);
+}
+
+.title {
+    font-size: 1rem;
 }
 
 /* Main Wrapper to all the below elements. */
@@ -17,25 +25,54 @@ body {
 .timer_info {
     display: flex;
     flex-direction: column;
+    border: 0.1rem solid #000;
+    border-radius: 15px;
+    padding: 2rem;
+    background-color: rgb(6, 215, 161);
 
     justify-content: center;
+}
+
+.timer_info p {
+    font-size: 1rem;
+    font-weight: bold;
 }
 
 /* The Main timer section. */
 .timer {
     display: flex;
     flex-direction: column;
+    border: 0.1rem solid #000;
+    border-radius: 15px;
+    padding: 0.5rem;
+    background-color: rgb(171, 152, 238);
 
     justify-content: center;
     align-items: center;
-    row-gap: 2rem;
-    margin-top: 1rem;
-    margin-bottom: 1rem;
+    row-gap: 0.2rem;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.timer button {
+    display: block;
+    background-color: rgb(94, 68, 187);
+    border-radius: 15px;
+    border: 0.1rem;
+    color: #eeeeee;
+    text-align: center;
+    font-size: 1rem;
+    padding: 0.4rem;
+    cursor: pointer;
+    width: 100%;
 }
 
 .timer-fg {
     display: flex;
     flex-direction: column;
+
+    margin-top: 0.1rem;
+    margin-bottom: 0.1rem;
 
     max-width: 300px;
     max-height: 600px;
@@ -61,6 +98,37 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: center;
+
+    border: 0.1rem solid #000;
+    border-radius: 15px;
+    padding: 0.5rem;
+    background-color: rgb(239, 71, 112);
+}
+
+.timer_editing button {
+    display: inline-block;
+    background-color: rgb(94, 68, 187);
+    border-radius: 15px;
+    border: 0.1rem;
+    color: #eeeeee;
+    text-align: center;
+    font-size: 1rem;
+    padding: 0.4rem;
+    cursor: pointer;
+    margin: 0.5rem;
+}
+
+.timer_editing select {
+    display: inline-block;
+    background-color: #3289ec;
+    border-radius: 15px;
+    border: 0.1rem;
+    color: white;
+    text-align: center;
+    font-size: 1rem;
+    padding: 0.4rem;
+    cursor: pointer;
+    margin: 0.5rem;
 }
 
 #stick {
@@ -68,32 +136,3 @@ body {
     stroke-width: 2px;
     fill: none;
 }
-
-/* .timer {
-    width: 300px;
-    height: 300px;
-    background-color: blueviolet;
-    position: relative;
-}
-
-.timer-bg {
-    height: 150px;
-    width: 150px;
-    border-radius: 50%;
-    border: 16px solid cadetblue;
-    border-top: 16px solid cadetblue;
-}
-
-.timer-fg {
-    height: 150px;
-    width: 150px;
-    border-radius: 50%;
-    animation-name: tankClock;
-}
-
-@keyframes tankClock {
-    0%   {background-color: red;}
-    25%  {background-color: yellow; height: 25px; }
-    50%  {background-color: blanchedalmond;  height: 75px; }
-    100% {background-color: green;  height: 100px; }
-} */
