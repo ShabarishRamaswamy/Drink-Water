@@ -1,6 +1,8 @@
 /**
  * Setting default values in the Storage which can be changed.
  */
+let alarmClicked = 0;
+
 chrome.storage.sync.set(
     {
         delayInMinutes: 0,
@@ -33,9 +35,12 @@ chrome.storage.onChanged.addListener((changes, namespace) => {
 createTimer = (delayInMinutes, periodInMinutes) => {
     if (periodInMinutes > 0) {
         chrome.alarms.create("DrinkWater", {
-            delayInMinutes: delayInMinutes,
-            periodInMinutes: periodInMinutes,
+            delayInMinutes: Number(delayInMinutes),
+            periodInMinutes: Number(periodInMinutes),
         });
+
+        chrome.action.setBadgeText({ text: "" });
+        chrome.storage.sync.set({ badgeText: "" });
     } else {
         chrome.storage.sync.get(
             ["delayInMinutes", "periodInMinutes"],
@@ -48,18 +53,28 @@ createTimer = (delayInMinutes, periodInMinutes) => {
 };
 
 chrome.alarms.onAlarm.addListener((alarm) => {
-    chrome.action.setBadgeBackgroundColor(
-        { color: [255, 0, 0, 0] }, // Blue
-        () => {
-            // console.log("Timer over !");
-        }
-    );
+    /**
+     * This complexity with the alarmClicked variable can be avoided if
+     * there is any way to determine if the alarm went off during creation
+     * or when it is actually supposed to go.
+     */
+    if (alarmClicked != 0) {
+        chrome.action.setBadgeBackgroundColor(
+            { color: [255, 0, 0, 0] }, // Blue
+            () => {
+                // console.log("Timer over !");
+            }
+        );
 
-    chrome.action.setBadgeText({ text: "!" });
-
-    chrome.storage.sync.set({ badgeText: "!" });
-
-    // console.log("Alarm fired");
+        chrome.action.setBadgeText({ text: "!" }).then(() => {
+            chrome.storage.sync.set({ badgeText: "!" }).then(() => {
+                // console.log("Alarm fired");
+            });
+        });
+        alarmClicked = 0;
+    } else {
+        alarmClicked += 1;
+    }
 });
 
 /**
@@ -96,7 +111,6 @@ chrome.runtime.onMessage.addListener((request, sender) => {
             chrome.storage.sync.get("badgeText", (res) => {
                 // console.log(`Badge Text: ${res.badgeText}`);
                 if (res.badgeText == "!") {
-                    chrome.action.setBadgeText({ text: "" });
                     chrome.alarms.clearAll(() => {
                         createTimer(0, -1); // -1 Will force the timer to pull from storage and set.
                     });
