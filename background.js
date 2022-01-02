@@ -1,23 +1,24 @@
 /**
  * Setting default values in the Storage which can be changed.
  */
-let alarmClicked = 0;
 
-chrome.storage.sync.set(
-    {
-        delayInMinutes: 0,
-        periodInMinutes: 1,
-        timerType: "Digital",
-    },
-    () => {
-        chrome.storage.sync.get(
-            ["delayInMinutes", "periodInMinutes"],
-            (values) => {
-                createTimer(values.delayInMinutes, values.periodInMinutes);
-            }
-        );
-    }
-);
+chrome.runtime.onInstalled.addListener(() => {
+    chrome.storage.sync.set(
+        {
+            delayInMinutes: 0,
+            periodInMinutes: 1,
+            timerType: "Digital",
+        },
+        () => {
+            chrome.storage.sync.get(
+                ["delayInMinutes", "periodInMinutes"],
+                (values) => {
+                    createTimer(values.delayInMinutes, values.periodInMinutes);
+                }
+            );
+        }
+    );
+});
 
 /**
  * @function creates timer to be used as the main timer of the extension.
@@ -38,9 +39,6 @@ createTimer = (delayInMinutes, periodInMinutes) => {
             delayInMinutes: Number(delayInMinutes),
             periodInMinutes: Number(periodInMinutes),
         });
-
-        chrome.action.setBadgeText({ text: "" });
-        chrome.storage.sync.set({ badgeText: "" });
     } else {
         chrome.storage.sync.get(
             ["delayInMinutes", "periodInMinutes"],
@@ -53,28 +51,18 @@ createTimer = (delayInMinutes, periodInMinutes) => {
 };
 
 chrome.alarms.onAlarm.addListener((alarm) => {
-    /**
-     * This complexity with the alarmClicked variable can be avoided if
-     * there is any way to determine if the alarm went off during creation
-     * or when it is actually supposed to go.
-     */
-    if (alarmClicked != 0) {
-        chrome.action.setBadgeBackgroundColor(
-            { color: [255, 0, 0, 0] }, // Blue
-            () => {
-                // console.log("Timer over !");
-            }
-        );
+    chrome.action.setBadgeBackgroundColor(
+        { color: [255, 0, 0, 0] }, // Blue
+        () => {
+            // console.log("Timer over !");
+        }
+    );
 
-        chrome.action.setBadgeText({ text: "!" }).then(() => {
-            chrome.storage.sync.set({ badgeText: "!" }).then(() => {
-                // console.log("Alarm fired");
-            });
+    chrome.action.setBadgeText({ text: "!" }).then(() => {
+        chrome.storage.sync.set({ badgeText: "!" }).then(() => {
+            // console.log("Alarm fired");
         });
-        alarmClicked = 0;
-    } else {
-        alarmClicked += 1;
-    }
+    });
 });
 
 /**
@@ -108,14 +96,20 @@ chrome.runtime.onMessage.addListener((request, sender) => {
             // });
 
             // Temporary workaround
-            chrome.storage.sync.get("badgeText", (res) => {
-                // console.log(`Badge Text: ${res.badgeText}`);
-                if (res.badgeText == "!") {
-                    chrome.alarms.clearAll(() => {
-                        createTimer(0, -1); // -1 Will force the timer to pull from storage and set.
-                    });
-                }
+
+            /**
+             * This complexity with the setTimeout can be avoided if
+             * there is any way to determine if the alarm went off during creation
+             * or when it is actually supposed to go.
+             */
+            chrome.alarms.clearAll(() => {
+                createTimer(0, -1); // -1 Will force the timer to pull from storage and set.
             });
+            setTimeout(() => {
+                chrome.action.setBadgeText({ text: "" }).then(() => {
+                    chrome.storage.sync.set({ badgeText: "" });
+                });
+            }, 1000);
         } catch (e) {
             console.log(e);
             console.log("No Badge.");
